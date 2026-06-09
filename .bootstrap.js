@@ -78,7 +78,7 @@ function updateWranglerJsonc() {
 
 function runSetupCommands() {
     const commands = [
-    "bun add react-csv@^2.2.2",
+    "bun add react-csv@^2.2.2 html2canvas@^1.4.1 jspdf@^2.5.2",
     "bun add html2canvas@^1.4.1",
     "bun add jspdf@^2.5.2"
 ];
