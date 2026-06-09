@@ -1,72 +1,88 @@
-/* This is a demo sidebar. **COMPULSORY** Edit this file to customize the sidebar OR remove it from appLayout OR don't use appLayout at all */
 import React from "react";
-import { Home, Layers, Compass, Star, Settings, LifeBuoy } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { 
+  LayoutDashboard, 
+  ShoppingCart, 
+  Users, 
+  MapPin, 
+  FileBarChart, 
+  Settings, 
+  LogOut,
+  Zap,
+  ShieldAlert
+} from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
   SidebarHeader,
-  SidebarSeparator,
-  SidebarInput,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-  SidebarMenuAction,
-  SidebarMenuBadge,
 } from "@/components/ui/sidebar";
-
+import { logout } from "@/services/auth";
 export function AppSidebar(): JSX.Element {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+  const menuItems = [
+    { title: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
+    { title: "Orders", icon: ShoppingCart, path: "/orders" },
+    { title: "Customers", icon: Users, path: "/customers" },
+    { title: "Pincode Intel", icon: MapPin, path: "/pincode-intelligence" },
+    { title: "Reports", icon: FileBarChart, path: "/reports" },
+    { title: "Integrations", icon: Zap, path: "/integrations" },
+    { title: "Admin Panel", icon: ShieldAlert, path: "/admin" },
+  ];
   return (
-    <Sidebar>
+    <Sidebar collapsible="icon">
       <SidebarHeader>
-        <div className="flex items-center gap-2 px-2 py-1">
-          <div className="h-6 w-6 rounded-md bg-gradient-to-br from-indigo-500 to-purple-500" />
-          <span className="text-sm font-medium">Demo Sidebar</span>
+        <div className="flex items-center gap-3 px-2 py-4">
+          <div className="h-8 w-8 rounded-lg bg-primary-brand flex items-center justify-center shrink-0">
+            <span className="text-white font-bold">R</span>
+          </div>
+          <span className="text-lg font-bold truncate group-data-[collapsible=icon]:hidden">
+            RTO Predictor
+          </span>
         </div>
-        <SidebarInput placeholder="Search" />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive>
-                <a href="#"><Home /> <span>Home</span></a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <a href="#"><Layers /> <span>Projects</span></a>
-              </SidebarMenuButton>
-              <SidebarMenuAction>
-                <Star className="size-4" />
-              </SidebarMenuAction>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <a href="#"><Compass /> <span>Explore</span></a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroup>
-
-        <SidebarSeparator />
-
-        <SidebarGroup>
-          <SidebarGroupLabel>Quick Links</SidebarGroupLabel>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <a href="#"><Star /> <span>Starred</span></a>
-              </SidebarMenuButton>
-              <SidebarMenuBadge>5</SidebarMenuBadge>
-            </SidebarMenuItem>
+            {menuItems.map((item) => (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton 
+                  isActive={location.pathname === item.path}
+                  onClick={() => navigate(item.path)}
+                  tooltip={item.title}
+                >
+                  <item.icon className="h-5 w-5" />
+                  <span>{item.title}</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
-        <div className="px-2 text-xs text-muted-foreground">A simple shadcn sidebar</div>
+      <SidebarFooter className="p-4 border-t">
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton onClick={() => navigate("/settings")} tooltip="Settings">
+              <Settings className="h-5 w-5" />
+              <span>Settings</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton onClick={handleLogout} className="text-red-500 hover:text-red-600 hover:bg-red-50" tooltip="Logout">
+              <LogOut className="h-5 w-5" />
+              <span>Logout</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarFooter>
     </Sidebar>
   );
