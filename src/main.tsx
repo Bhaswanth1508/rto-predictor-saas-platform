@@ -20,6 +20,9 @@ import { OrdersPage } from '@/pages/OrdersPage';
 import { CustomersPage } from '@/pages/CustomersPage';
 import { PincodeIntelPage } from '@/pages/PincodeIntelPage';
 import { IntegrationsPage } from '@/pages/IntegrationsPage';
+import { ReportsPage } from '@/pages/ReportsPage';
+import { AdminPage } from '@/pages/AdminPage';
+import { SettingsPage } from '@/pages/SettingsPage';
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -75,8 +78,22 @@ const router = createBrowserRouter([
     element: <ProtectedRoute><IntegrationsPage /></ProtectedRoute>,
     errorElement: <RouteErrorBoundary />,
   },
+  {
+    path: "/reports",
+    element: <ProtectedRoute><ReportsPage /></ProtectedRoute>,
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/admin",
+    element: <ProtectedRoute requiredRole="admin"><AdminPage /></ProtectedRoute>,
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/settings",
+    element: <ProtectedRoute><SettingsPage /></ProtectedRoute>,
+    errorElement: <RouteErrorBoundary />,
+  },
 ]);
-// Single instance of createRoot to prevent the "container already passed to createRoot()" error
 const container = document.getElementById('root');
 if (container) {
   const root = createRoot(container);
