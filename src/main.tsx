@@ -6,7 +6,6 @@ import { createRoot } from 'react-dom/client'
 import {
   createBrowserRouter,
   RouterProvider,
-  Navigate,
 } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
@@ -17,15 +16,10 @@ import { LoginPage } from '@/pages/LoginPage';
 import { RegisterPage } from '@/pages/RegisterPage';
 import { ForgotPasswordPage } from '@/pages/ForgotPasswordPage';
 import { DashboardPage } from '@/pages/DashboardPage';
-import { AppLayout } from '@/components/layout/AppLayout';
-import { isAuthenticated } from '@/services/auth';
+import { OrdersPage } from '@/pages/OrdersPage';
+import { CustomersPage } from '@/pages/CustomersPage';
+import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 const queryClient = new QueryClient();
-const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  if (!isAuthenticated()) {
-    return <Navigate to="/login" replace />;
-  }
-  return <AppLayout container>{children}</AppLayout>;
-};
 const router = createBrowserRouter([
   {
     path: "/",
@@ -50,6 +44,16 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <ProtectedRoute><DashboardPage /></ProtectedRoute>,
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/orders",
+    element: <ProtectedRoute><OrdersPage /></ProtectedRoute>,
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/customers",
+    element: <ProtectedRoute><CustomersPage /></ProtectedRoute>,
     errorElement: <RouteErrorBoundary />,
   },
 ]);
