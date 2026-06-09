@@ -4,7 +4,7 @@
  */
  {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "vite-cf-do-runner",
+	"name": "rto-predictor-saas-df09yiizpi3whrezu_p0w",
 	"main": "worker/index.ts",
 	"compatibility_date": "2025-04-24",
 	"assets": {
