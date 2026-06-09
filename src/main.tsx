@@ -18,8 +18,17 @@ import { ForgotPasswordPage } from '@/pages/ForgotPasswordPage';
 import { DashboardPage } from '@/pages/DashboardPage';
 import { OrdersPage } from '@/pages/OrdersPage';
 import { CustomersPage } from '@/pages/CustomersPage';
+import { PincodeIntelPage } from '@/pages/PincodeIntelPage';
+import { IntegrationsPage } from '@/pages/IntegrationsPage';
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 const router = createBrowserRouter([
   {
     path: "/",
@@ -56,13 +65,28 @@ const router = createBrowserRouter([
     element: <ProtectedRoute><CustomersPage /></ProtectedRoute>,
     errorElement: <RouteErrorBoundary />,
   },
+  {
+    path: "/pincode-intelligence",
+    element: <ProtectedRoute><PincodeIntelPage /></ProtectedRoute>,
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/integrations",
+    element: <ProtectedRoute><IntegrationsPage /></ProtectedRoute>,
+    errorElement: <RouteErrorBoundary />,
+  },
 ]);
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <ErrorBoundary>
-        <RouterProvider router={router} />
-      </ErrorBoundary>
-    </QueryClientProvider>
-  </StrictMode>,
-)
+// Single instance of createRoot to prevent the "container already passed to createRoot()" error
+const container = document.getElementById('root');
+if (container) {
+  const root = createRoot(container);
+  root.render(
+    <StrictMode>
+      <QueryClientProvider client={queryClient}>
+        <ErrorBoundary>
+          <RouterProvider router={router} />
+        </ErrorBoundary>
+      </QueryClientProvider>
+    </StrictMode>,
+  );
+}
