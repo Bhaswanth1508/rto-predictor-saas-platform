@@ -1,6 +1,6 @@
 # RTO Predictor SaaS
 
-[cloudflarebutton]
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/Bhaswanth1508/rto-predictor-saas-platform)
 
 A production-ready SaaS template built on Cloudflare Workers, featuring a React frontend with shadcn/ui components and a backend powered by Durable Objects for scalable entity management and real-time chat functionality.
 
@@ -71,7 +71,7 @@ Deploy directly to Cloudflare Workers with a single command:
 bun run deploy
 ```
 
-[cloudflarebutton]
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/Bhaswanth1508/rto-predictor-saas-platform)
 
 The `wrangler.jsonc` file configures Durable Object migrations and asset handling for the SPA. Update the `name` field before deploying your own instance.
 
